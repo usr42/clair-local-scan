@@ -6,10 +6,10 @@ services:
   - docker
 
 env:
-  - POSTGRES_IMAGE=postgres:10.3-alpine CLAIR_LOCAL_SCAN_IMAGE=arminc/clair-local-scan:v2.0.1
+  - CLAIR-DB_REPO=arminc/clair-db POSTGRES_IMAGE=postgres:10.3-alpine CLAIR_LOCAL_SCAN_IMAGE=arminc/clair-local-scan:v2.0.1
 
 install:
-  - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD" quay.io
+  - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD" $REGISTRY_SERVER
   - docker pull $POSTGRES_IMAGE
   - docker pull $CLAIR_LOCAL_SCAN_IMAGE
   - docker run -d --name postgres -e 'PGDATA=/var/lib/postgresql/clair' -e POSTGRES_PASSWORD=password $POSTGRES_IMAGE
@@ -22,8 +22,8 @@ script:
 after_success:
   - docker stop clair
   - docker stop postgres
-  - docker commit postgres quay.io/usr42/clair-db:$(date +%Y-%m-%d)
-  - docker tag quay.io/usr42/clair-db:$(date +%Y-%m-%d) quay.io/usr42/clair-db:latest
+  - docker commit postgres $CLAIR-DB_REPO:$(date +%Y-%m-%d)
+  - docker tag $CLAIR-DB_REPO:$(date +%Y-%m-%d) $CLAIR-DB_REPO:latest
   - docker images
-  - docker push quay.io/usr42/clair-db:$(date +%Y-%m-%d)
-  - docker push quay.io/usr42/clair-db:latest
+  - docker push $CLAIR-DB_REPO:$(date +%Y-%m-%d)
+  - docker push $CLAIR-DB_REPO:latest
