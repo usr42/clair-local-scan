@@ -1,4 +1,4 @@
-FROM quay.io/coreos/clair:v2.0.2
+FROM quay.io/usr42/clair:upgrade_to_1.10-alpine
 
 COPY config.yaml /config/config.yaml
 
