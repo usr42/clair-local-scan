@@ -6,7 +6,7 @@ services:
   - docker
 
 env:
-  - CLAIR-DB_REPO=arminc/clair-db POSTGRES_IMAGE=postgres:10.3-alpine CLAIR_LOCAL_SCAN_IMAGE=arminc/clair-local-scan:v2.0.1
+  - CLAIR-DB_REPO=arminc/clair-db POSTGRES_IMAGE=postgres:10.3-alpine CLAIR_LOCAL_SCAN_IMAGE=usr42/clair-local-scan:v2.0.5
 
 install:
   - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD" $REGISTRY_SERVER
